@@ -27,15 +27,21 @@
     }
 
     .galeria-wrapper {
-      overflow: hidden;
-      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      padding: 20px;
+      -ms-overflow-style: none; /* IE/Edge */
+      scrollbar-width: none;     /* Firefox */
+    }
+
+    .galeria-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
     }
 
     .galeria {
-      display: flex;
+      display: inline-flex;
       gap: 15px;
-      padding: 20px;
-      animation: scrollLoop 10s linear infinite;
     }
 
     .galeria img {
@@ -47,11 +53,6 @@
       flex-shrink: 0;
     }
 
-    @keyframes scrollLoop {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
     .contenido {
       margin: 20px;
     }
@@ -60,7 +61,7 @@
       background: white;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
       line-height: 1.6;
     }
 
@@ -88,6 +89,13 @@
       .galeria img {
         width: 90vw;
       }
+
+      .descripcion-box,
+      .tarjeta-info,
+      .curiosidades {
+        margin: 10px;
+        padding: 15px;
+      }
     }
   </style>
 </head>
@@ -97,16 +105,16 @@
     <h1>Sabores de Nuestra Tierra</h1>
   </header>
 
-  <!-- Galería Loop -->
+  <!-- Galería deslizante manual -->
   <div class="galeria-wrapper">
     <div class="galeria">
-      <img src="images/gastronomia.jpg" alt="Plato típico 1">
+      <img src="images/gastronomia.jpg" alt="Plato típico 5">
+      <img src="images/gastronomia6.jpg" alt="Plato típico 1">
       <img src="images/gastronomia2.jpg" alt="Plato típico 2">
       <img src="images/gastronomia3.jpg" alt="Plato típico 3">
-      <!-- duplicadas para loop -->
-      <img src="images/gastronomia4.jpg" alt="Plato típico 1">
-      <img src="images/gastronomia5.jpg" alt="Plato típico 2">
-      <img src="images/gastronomia6.jpg" alt="Plato típico 3">
+      <img src="images/gastronomia4.jpg" alt="Plato típico 4">
+      <img src="images/gastronomia5.jpg" alt="Plato típico 5">
+      
     </div>
   </div>
 
@@ -143,4 +151,3 @@
 
 </body>
 </html>
-
