@@ -1,143 +1,352 @@
-<!DOCTYPE html>
+<!-- Proyecto: Sitio cultural móvil — paquete de páginas (index + 3 secciones)
+     Instrucciones: Copia cada bloque entre comentarios "START <filename>" y "END <filename>" a archivos separados (por ejemplo index.html, santalucia.html, carnaval.html, gastronomia.html).
+     Las imágenes usadas son de Unsplash (libres) y pueden sustituirse por tus propias rutas locales.
+-->
+
+<!-- START index.html -->
+
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Carnaval</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patrimonio Vivo — Cultura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-      color: #333;
+    :root{
+      --bg:#fff8fb;
+      --primary-1:#ff4b8b; /* fucsia */
+      --primary-2:#ffd947; /* amarillo */
+      --accent:#18c7c3;   /* turquesa */
+      --muted:#6b6b6b;
+      --card:#ffffff;
+      --radius:16px;
     }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:#222;font-family:Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
 
-    header {
-      background: linear-gradient(to right, #ff9800, #ff5722);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-      border-bottom-left-radius: 50px;
-      border-bottom-right-radius: 50px;
+    /* HEADER */
+    header{position:sticky;top:0;z-index:30;padding:14px 16px;background:linear-gradient(135deg,var(--primary-1),#ff7fb3);display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--primary-2),#ffea7a);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Baloo 2, cursive;color:#222;box-shadow:0 6px 18px rgba(255,75,139,0.18)}
+    h1{font-family:Baloo 2, cursive;font-size:18px;margin:0;color:white}
+    p.sub{margin:0;font-size:12px;color:rgba(255,255,255,0.9)}
+
+    /* menu button */
+    .menu-btn{margin-left:auto;background:transparent;border:0;color:white;font-size:22px;padding:8px;border-radius:10px}
+
+    /* menu panel */
+    .menu-panel{position:absolute;right:12px;top:70px;background:var(--card);min-width:200px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12);overflow:hidden;display:none}
+    .menu-panel a{display:block;padding:12px 14px;color:#222;text-decoration:none;border-bottom:1px solid #f1f1f1}
+    .menu-panel a:last-child{border-bottom:0}
+    .menu-panel a:hover{background:linear-gradient(90deg,rgba(24,199,195,0.08),rgba(255,75,139,0.06))}
+
+    /* hero */
+    .hero{padding:18px 16px}
+    .hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.9),white);padding:14px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,0.06);display:flex;gap:12px;align-items:center}
+    .hero-info h2{margin:0;font-size:18px;color:#222}
+    .hero-info p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+
+    /* gallery grid */
+    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.06);cursor:pointer;transition:transform 260ms ease, box-shadow 260ms ease}
+    .card img{width:100%;height:160px;object-fit:cover;display:block;transition:transform 320ms ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(0,0,0,0.12)}
+    .meta{padding:10px}
+    .meta h3{margin:0;font-size:15px;color:#111}
+    .meta p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+
+    /* colors accent */
+    .tag{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#222;background:linear-gradient(90deg,var(--primary-2),#fff1b2);}
+
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:18px;z-index:60;opacity:0;pointer-events:none;transition:opacity 220ms ease}
+    .modal.show{opacity:1;pointer-events:auto}
+    .modal-card{width:100%;max-width:680px;background:white;border-radius:16px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.3);animation:pop 220ms ease}
+    @keyframes pop{from{transform:translateY(8px) scale(0.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+    .modal-img{width:100%;height:260px;object-fit:cover}
+    .modal-body{padding:14px}
+    .modal-body h3{margin:0;font-family:Baloo 2;font-size:18px}
+    .modal-body p{margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .info-grid .info{background:linear-gradient(180deg,rgba(24,199,195,0.06),rgba(255,75,139,0.03));padding:10px;border-radius:10px;font-size:13px}
+
+    /* footer */
+    footer{padding:14px 16px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media(min-width:700px){
+      .gallery{grid-template-columns:repeat(3,1fr)}
+      .card img{height:180px}
     }
-
-    header h1 {
-      margin: 0;
-      font-size: 36px;
-    }
-
-    .galeria-wrapper {
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding: 20px;
-    }
-
-    .galeria {
-      display: flex;
-      gap: 15px;
-    }
-
-    .galeria img {
-      width: 300px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      flex-shrink: 0;
-      scroll-snap-align: center;
-      transition: transform 0.3s;
-    }
-
-    .galeria img:hover {
-      transform: scale(1.05);
-    }
-
-    .contenido {
-      margin: 20px;
-    }
-
-    .descripcion-box {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      line-height: 1.6;
-    }
-
-    .tarjeta-info {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .curiosidades {
-      background: #fff3e0;
-      border-left: 5px solid #ff9800;
-      padding: 20px;
-      margin: 20px;
-      border-radius: 10px;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 24px;
-      }
-
-      .galeria img {
-        width: 90vw;
-      }
+    @media(max-width:420px){
+      .modal-img{height:220px}
+      .card img{height:140px}
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Vive el Carnaval</h1>
+    <div class="brand">
+     
+      <div>
+        <h1>carnaval</h1>
+       
+      </div>
+    </div>
+
+    <button class="menu-btn" id="menuBtn" aria-expanded="false">☰</button>
+    <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
+      <a href="santa-lucia.html">Santa Lucía</a>
+      <a href="carnaval.html">Carnaval</a>
+      <a href="gastronomia.html">Gastronomía</a>
+    </div>
   </header>
 
-  <!-- Galería deslizable -->
-  <div class="galeria-wrapper">
-    <div class="galeria">
-      <img src="images/carnaval.jpg" alt="Carnaval 1">
-      <img src="images/carnaval1.jpg" alt="Carnaval 2">
-      <img src="images/carnaval2.jpg" alt="Carnaval 3">
-      <img src="images/carnaval3.jpg" alt="Carnaval 4">
-      <img src="images/carnaval4.jpg" alt="Carnaval 5">
-      <img src="images/carnaval5.jpg" alt="Carnaval 6">
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <img src="images/carnaval_icono.png" alt="Plaza" style="width:86px;height:86px;border-radius:12px;object-fit:cover;flex-shrink:0">
+        <div class="hero-info">
+          <h2>Carnaval, quien lo vive es quien lo goza </h2>
+          <p class="sub">Sumejerte en nuestras festividades como lo es el Carnaval</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+      <!-- Card 1 -->
+      <article class="card" tabindex="0" data-title="Reina del carnaval 2025" data-desc="Brianis Pino Corrales, reina del Carnaval de Santa Lucía 2025, es pura alegría y carisma. Con su energía contagiosa, ha sabido representar el espíritu festivo del municipio y contagiar a todos con el sabor del carnaval." data-curio="Sabias que Brianis Pino Corrales creció participando en comparsas y bailes del Carnaval de Santa Lucía, así que ahora, como reina, está cumpliendo un sueño que tenía desde niña.">
+        <img src="images/brianis.jpg" alt="reina">
+        <div class="meta">
+          <h3>Reinas del carnaval</h3>
+          <p>Brianis Pino Corrales</p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card" tabindex="0" data-title="Plaza de la Música" data-desc="Los trajes típicos del Carnaval de Santa Lucía son un estallido de color y creatividad. Llenos de lentejuelas, plumas y bordados, representan la alegría, la tradición y la identidad del pueblo. Cada comparsa adapta sus diseños con toques propios, combinando lo folclórico con la energía festiva que hace único al carnaval." data-curio="Un dato curioso es que muchos trajes del Carnaval de Santa Lucía se confeccionan a mano por familias del mismo municipio, y algunos tardan meses en estar listos debido a los detalles y bordados.">
+        <img src="images/caranvalfoto.jpeg" alt="trajes">
+        <div class="meta">
+          <h3>Trajes tipicos</h3>
+          <p>Diseños Artesanales</p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card" tabindex="0" data-title="Danza y Musica" data-desc="En el Carnaval de Santa Lucía la música y las danzas son el alma de la fiesta. Suenan tambores, gaitas y maracas al ritmo de cumbia, mapalé y porro, mientras las comparsas llenan las calles de pasos enérgicos y sonrisas. Es imposible quedarse quieto con tanta alegría en el aire." data-curio="Un dato curioso es que en el Carnaval de Santa Lucía muchas comparsas incluyen coreografías improvisadas, y a veces el público termina uniéndose al baile, convirtiendo la calle entera en una pista de fiesta.">
+        <img src="images/danza.jpg" alt="Festival de la Yuca">
+        <div class="meta">
+          <h3>Danza y Musica</h3>
+          <p>Siente La Musica</p>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card" tabindex="0" data-title="Historia del Carnaval" data-desc="El Carnaval de Santa Lucía nació de las tradiciones afrodescendientes y campesinas de la región. Empezó como una fiesta del pueblo para bailar, cantar y celebrar la vida, y con los años se volvió la cita más esperada, donde todo el municipio se une para vivir su cultura y folclor." data-curio="Sabias que en sus inicios, el Carnaval de Santa Lucía no tenía escenario ni tarimas: la música y el baile se hacían en plena calle, y cualquiera podía unirse a la celebración." >
+        <img src="images/son-de-negro.jpg" alt="historia">
+        <div class="meta">
+          <h3>Historia del Carnaval</h3>
+          <p>Sabias que...</p>
+        </div>
+      </article>
+
+      
+
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-card">
+      <img id="modalImg" class="modal-img" src="" alt="">
+      <div class="modal-body">
+        <h3 id="modalTitle">Título</h3>
+        <p id="modalDesc">Descripción</p>
+        <div class="info-grid">
+          <div class="info" id="modalLocation">Ubicación</div>
+          <div class="info" id="modalYear">Año</div>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">Dato curioso:</div>
+        <div style="margin-top:6px;color:#333;font-size:14px" id="modalCurio"></div>
+      </div>
     </div>
   </div>
 
-  <!-- Descripción -->
-  <div class="contenido">
-    <div class="descripcion-box">
-      <p>
-        El Carnaval es una celebración llena de color, música y tradición. En esta fiesta vibrante se mezclan ritmos folclóricos,
-        disfraces espectaculares y desfiles que hacen que toda la ciudad se llene de vida. Es una expresión del alma cultural de su pueblo.
-      </p>
-    </div>
-  </div>
+  <footer>
+    © <strong>LuciMapps</strong> — Carnaval - Vive el sason
+  </footer>
 
-  <!-- Datos destacados -->
-  <div class="tarjeta-info">
-    <h3>Datos del Carnaval</h3>
-    <ul>
-      <li><strong>Origen:</strong> Tradición precolombina fusionada con cultura española</li>
-      <li><strong>Duración:</strong> 4 días</li>
-      <li><strong>Fecha:</strong> Febrero (antes del Miércoles de Ceniza)</li>
-      <li><strong>Ubicación destacada:</strong> Barranquilla, Colombia</li>
-    </ul>
-  </div>
+  <script>
+    // Menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const menuPanel = document.getElementById('menuPanel');
+    menuBtn.addEventListener('click', ()=>{
+      const visible = menuPanel.style.display === 'block';
+      menuPanel.style.display = visible ? 'none' : 'block';
+      menuBtn.setAttribute('aria-expanded', String(!visible));
+      menuPanel.setAttribute('aria-hidden', String(visible));
+    });
 
-  <!-- Curiosidades -->
-  <div class="curiosidades">
-    <h3>¿Sabías que...?</h3>
-    <p>
-      El Carnaval de Barranquilla fue declarado Patrimonio Oral e Inmaterial de la Humanidad por la UNESCO en 2003. Es una de las fiestas más grandes del mundo.
-    </p>
-  </div>
+    // Modal behaviour
+    const cards = document.querySelectorAll('.card');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalLocation = document.getElementById('modalLocation');
+    const modalYear = document.getElementById('modalYear');
+    const modalCurio = document.getElementById('modalCurio');
 
+    function openModal(card){
+      modalImg.src = card.querySelector('img').src;
+      modalImg.alt = card.dataset.title;
+      modalTitle.textContent = card.dataset.title;
+      modalDesc.textContent = card.dataset.desc;
+      modalLocation.textContent = card.dataset.location;
+      modalYear.textContent = card.dataset.year;
+      modalCurio.textContent = card.dataset.curio;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    cards.forEach(card=>{
+      card.addEventListener('click', ()=>openModal(card));
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') openModal(card); });
+    });
+
+    // close modal on background click or Esc
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
 </body>
 </html>
+<!-- END index.html -->
+
+
+<!-- START santalucia.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Santa Lucía — Patrimonio Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#ff5a8a;--muted:#6b6b6b}
+    body{margin:0;font-family:Poppins,system-ui;background:#fff8fb;color:#222}
+    header{padding:14px;background:linear-gradient(90deg,var(--primary),#ff88ac);color:white;display:flex;align-items:center;gap:12px}
+    .back{color:white;text-decoration:none;padding:8px;border-radius:8px;background:rgba(0,0,0,0.08)}
+    main{padding:16px}
+    h1{font-family:Baloo 2;margin:0 0 8px}
+    .hero-img{width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+    .card{background:white;padding:12px;border-radius:12px;margin-top:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+    ul{padding-left:18px}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="back" href="index.html">← Volver</a>
+    <div>
+      <div style="font-weight:700">Datos sobre el Carnaval</div>
+      <div style="font-size:12px;opacity:0.95">Historia • Lugares • Cultura</div>
+    </div>
+  </header>
+  <main>
+    <img class="hero-img" src="images/El_Plantel_Estable_de_TerrorDoCorso.jpg" alt="Santa Lucía">
+
+    <section class="card">
+      <h2>Sabias que...</h2>
+      <p>
+        El Carnaval de Santa Lucía es una de las celebraciones más alegres y coloridas del Atlántico. Durante varios días, las calles se llenan de comparsas, disfraces, música de tambores, gaitas y ritmos caribeños que invitan a bailar sin parar. Es un encuentro donde se mezclan tradición, cultura e identidad, y donde participan desde los más pequeños hasta los mayores, todos con el mismo entusiasmo. Más que una fiesta, es un momento de unión para la comunidad y un homenaje vivo al folclor que caracteriza a Santa Lucía.
+      </p>
+    </section>
+
+    <section class="card">
+      <h3>Datos importantes</h3>
+      <ul>
+        <li><strong>Ubicación:</strong> Región Andina</li>
+        <li><strong>Fecha:</strong> Se celebra cada año en enero</li>
+        <li><strong>Duracion:</strong> 3 a 4 días de actividades festivas</li>
+        <li><strong>Participantes:</strong> Comparsas locales y visitantes de otros municipios</li>
+        <li><strong>Importancia:</strong> Fiesta que fortalece la identidad cultural y atrae turismo a la región</li>
+      </ul>
+    </section>
+
+    
+    <section class="card">
+      <h3>Consejos para visitantes</h3>
+      <p>Para disfrutar el Carnaval de Santa Lucía, viste ropa fresca y calzado cómodo, lleva protector solar, sombrero e hidratación, prueba la gastronomía local como el bocachico frito y el sancocho de pescado, respeta a las comparsas durante sus presentaciones, llega temprano a los eventos y cuida tus pertenencias en las multitudes.</p>
+    </section>
+  </main>
+  <footer style="padding:12px;text-align:center;color:var(--muted)">© Patrimonio Vivo</footer>
+</body>
+</html>
+<!-- END santalucia.html -->
+
+
+
+
+
+<!-- START gastronomia.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gastronomía — Patrimonio Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#18c7c3;--muted:#6b6b6b}
+    body{margin:0;font-family:Poppins,system-ui;background:#f2fffef0;color:#222}
+    header{padding:14px;background:linear-gradient(90deg,#18c7c3,#6be7d9);color:white;display:flex;align-items:center;gap:12px}
+    .back{color:white;text-decoration:none;padding:8px;border-radius:8px;background:rgba(0,0,0,0.06)}
+    main{padding:16px}
+    h1{font-family:Baloo 2;margin:0 0 8px}
+    .hero-img{width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+    .card{background:white;padding:12px;border-radius:12px;margin-top:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="back" href="index.html">← Volver</a>
+    <div>
+      <div style="font-weight:700">Gastronomía</div>
+      <div style="font-size:12px;opacity:0.95">Sabores tradicionales</div>
+    </div>
+  </header>
+  <main>
+    <img class="hero-img" src="https://images.unsplash.com/photo-1543339300-1b3b0a7d3e1b?q=80&w=1600&auto=format&fit=crop" alt="Gastronomia">
+
+    <section class="card">
+      <h2>Platos emblemáticos</h2>
+      <ul>
+        <li><strong>Sancocho</strong> — caldo tradicional con yuca, papa y tubérculos locales.</li>
+        <li><strong>Arroz de lisa</strong> — plato costero con pescado ahumado o seco.</li>
+        <li><strong>Butifarra</strong> — embutido típico que se sirve en festividades.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h3>Consejos gastronómicos</h3>
+      <p>Pregunta por las recetas familiares: muchos platos se preparan con ingredientes locales y métodos tradicionales que varían por vereda.</p>
+    </section>
+
+    <section class="card">
+      <h3>Eventos culinarios</h3>
+      <p>Durante el Festival de la Yuca y otras ferias, encontrarás concursos de cocina y puestos con productos artesanales.</p>
+    </section>
+  </main>
+ 
+</body>
+</html>
+<!-- END gastronomia.html -->
+
+
+<!-- Nota: sustituye las URLs de imagen por tus archivos locales en la carpeta "images/" si lo deseas. --> 
