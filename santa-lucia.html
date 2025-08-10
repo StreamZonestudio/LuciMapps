@@ -1,0 +1,346 @@
+<!-- Proyecto: Sitio cultural móvil — paquete de páginas (index + 3 secciones)
+     Instrucciones: Copia cada bloque entre comentarios "START <filename>" y "END <filename>" a archivos separados (por ejemplo index.html, santalucia.html, carnaval.html, gastronomia.html).
+     Las imágenes usadas son de Unsplash (libres) y pueden sustituirse por tus propias rutas locales.
+-->
+
+<!-- START index.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patrimonio Vivo — Cultura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff8fb;
+      --primary-1:#ff4b8b; /* fucsia */
+      --primary-2:#ffd947; /* amarillo */
+      --accent:#18c7c3;   /* turquesa */
+      --muted:#6b6b6b;
+      --card:#ffffff;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:#222;font-family:Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+
+    /* HEADER */
+    header{position:sticky;top:0;z-index:30;padding:14px 16px;background:linear-gradient(135deg,var(--primary-1),#ff7fb3);display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--primary-2),#ffea7a);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:Baloo 2, cursive;color:#222;box-shadow:0 6px 18px rgba(255,75,139,0.18)}
+    h1{font-family:Baloo 2, cursive;font-size:18px;margin:0;color:white}
+    p.sub{margin:0;font-size:12px;color:rgba(255,255,255,0.9)}
+
+    /* menu button */
+    .menu-btn{margin-left:auto;background:transparent;border:0;color:white;font-size:22px;padding:8px;border-radius:10px}
+
+    /* menu panel */
+    .menu-panel{position:absolute;right:12px;top:70px;background:var(--card);min-width:200px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12);overflow:hidden;display:none}
+    .menu-panel a{display:block;padding:12px 14px;color:#222;text-decoration:none;border-bottom:1px solid #f1f1f1}
+    .menu-panel a:last-child{border-bottom:0}
+    .menu-panel a:hover{background:linear-gradient(90deg,rgba(24,199,195,0.08),rgba(255,75,139,0.06))}
+
+    /* hero */
+    .hero{padding:18px 16px}
+    .hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.9),white);padding:14px;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,0.06);display:flex;gap:12px;align-items:center}
+    .hero-info h2{margin:0;font-size:18px;color:#222}
+    .hero-info p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+
+    /* gallery grid */
+    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.06);cursor:pointer;transition:transform 260ms ease, box-shadow 260ms ease}
+    .card img{width:100%;height:160px;object-fit:cover;display:block;transition:transform 320ms ease}
+    .card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(0,0,0,0.12)}
+    .meta{padding:10px}
+    .meta h3{margin:0;font-size:15px;color:#111}
+    .meta p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+
+    /* colors accent */
+    .tag{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#222;background:linear-gradient(90deg,var(--primary-2),#fff1b2);}
+
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:18px;z-index:60;opacity:0;pointer-events:none;transition:opacity 220ms ease}
+    .modal.show{opacity:1;pointer-events:auto}
+    .modal-card{width:100%;max-width:680px;background:white;border-radius:16px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.3);animation:pop 220ms ease}
+    @keyframes pop{from{transform:translateY(8px) scale(0.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+    .modal-img{width:100%;height:260px;object-fit:cover}
+    .modal-body{padding:14px}
+    .modal-body h3{margin:0;font-family:Baloo 2;font-size:18px}
+    .modal-body p{margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .info-grid .info{background:linear-gradient(180deg,rgba(24,199,195,0.06),rgba(255,75,139,0.03));padding:10px;border-radius:10px;font-size:13px}
+
+    /* footer */
+    footer{padding:14px 16px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media(min-width:700px){
+      .gallery{grid-template-columns:repeat(3,1fr)}
+      .card img{height:180px}
+    }
+    @media(max-width:420px){
+      .modal-img{height:220px}
+      .card img{height:140px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">PV</div>
+      <div>
+        <h1>Patrimonio Vivo</h1>
+        <p class="sub">Cultura, fiesta y sabores — Santa Lucía</p>
+      </div>
+    </div>
+
+    <button class="menu-btn" id="menuBtn" aria-expanded="false">☰</button>
+    <div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
+      <a href="santa-lucia.html">Santa Lucía</a>
+      <a href="carnaval.html">Carnaval</a>
+      <a href="gastronomia.html">Gastronomía</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <img src="images/mapa-vial.png" alt="Plaza" style="width:86px;height:86px;border-radius:12px;object-fit:cover;flex-shrink:0">
+        <div class="hero-info">
+          <h2>Bienvenido a Santa Lucía</h2>
+          <p class="sub">Un recorrido por su historia, festividades y sabores. Toca cualquier imagen para conocer su historia.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+      <!-- Card 1 -->
+      <article class="card" tabindex="0" data-title="Iglesia" data-desc="La Iglesia Santa Lucía,es un símbolo religioso y cultural, famosa por su fiesta patronal cada 13 de diciembre en honor a Santa Lucía de Siracusa." data-curio="Cada 13 de diciembre, fieles acuden a la Iglesia Santa Lucía para pedir por la salud de sus ojos, tradición heredada de su patrona." data-location="Centro histórico • Santa Lucía" data-year="Siglo XIX">
+        <img src="images/santa_lucia2.jpg" alt="Iglesia San Miguel">
+        <div class="meta">
+          <h3>Iglesia</h3>
+          <p>Templo histórico</p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card" tabindex="0" data-title="Pezcadores" data-desc="En Santa Lucía (Atlántico), la pesca artesanal en el Canal del Dique es fuente de sustento y tradición, con capturas como bocachico y bagre." data-curio="Sabias que muchos pescadores de Santa Lucía usan aún canoas de madera y redes tejidas a mano, técnicas heredadas de sus abuelos." data-location="Pezcadores" data-year="Emprededores">
+        <img src="images/santa_lucia3.jpg" alt="Plaza de la Música">
+        <div class="meta">
+          <h3>Pezcadores</h3>
+          <p>Emprendimientos locales</p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card" tabindex="0" data-title="Canal del Dique" data-desc="El Canal del Dique, construido en la época colonial, conecta el río Magdalena con la bahía de Cartagena.Atraviesa municipios como Santa Lucía y es esencial para la navegación, la pesca y el riego, además de albergar una rica biodiversidad que sostiene a las comunidades ribereñas." data-curio="Un dato curioso es que el Canal del Dique fue abierto por orden de los españoles en 1650 para acortar el viaje fluvial entre el río Magdalena y Cartagena, convirtiéndose en una ruta estratégica durante la colonia." data-location="Pacifico" data-year="Disfruta">
+        <img src="images/santa_lucia10.jpg" alt="Canal del Dique">
+        <div class="meta">
+          <h3>Canal del Dique</h3>
+          <p>Tradicion cultural</p>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="card" tabindex="0" data-title="Las letras" data-desc="Las letras turísticas de Santa Lucía, Atlántico, exhiben su nombre en colores vivos con elementos alusivos a la pesca y al Festival Son de Negro, siendo un punto emblemático para fotos y orgullo local." data-curio="Un dato curioso es que las letras de Santa Lucía suelen decorarse en fechas festivas, cambiando sus colores y adornos para reflejar celebraciones como el Festival Son de Negro o la fiesta patronal." data-location="Turistico" data-year="Fotos">
+        <img src="images/santa_lucia7.jpg" alt="Letras">
+        <div class="meta">
+          <h3>Las Letras</h3>
+          <p>Turismo · Fotos</p>
+        </div>
+      </article>
+
+     
+
+
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-card">
+      <img id="modalImg" class="modal-img" src="" alt="">
+      <div class="modal-body">
+        <h3 id="modalTitle">Título</h3>
+        <p id="modalDesc">Descripción</p>
+        <div class="info-grid">
+          <div class="info" id="modalLocation">Ubicación</div>
+          <div class="info" id="modalYear">Año</div>
+        </div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">Dato curioso:</div>
+        <div style="margin-top:6px;color:#333;font-size:14px" id="modalCurio"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © <strong>LuciMapps</strong> — Cultura local
+  </footer>
+
+  <script>
+    // Menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const menuPanel = document.getElementById('menuPanel');
+    menuBtn.addEventListener('click', ()=>{
+      const visible = menuPanel.style.display === 'block';
+      menuPanel.style.display = visible ? 'none' : 'block';
+      menuBtn.setAttribute('aria-expanded', String(!visible));
+      menuPanel.setAttribute('aria-hidden', String(visible));
+    });
+
+    // Modal behaviour
+    const cards = document.querySelectorAll('.card');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalLocation = document.getElementById('modalLocation');
+    const modalYear = document.getElementById('modalYear');
+    const modalCurio = document.getElementById('modalCurio');
+
+    function openModal(card){
+      modalImg.src = card.querySelector('img').src;
+      modalImg.alt = card.dataset.title;
+      modalTitle.textContent = card.dataset.title;
+      modalDesc.textContent = card.dataset.desc;
+      modalLocation.textContent = card.dataset.location;
+      modalYear.textContent = card.dataset.year;
+      modalCurio.textContent = card.dataset.curio;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    cards.forEach(card=>{
+      card.addEventListener('click', ()=>openModal(card));
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') openModal(card); });
+    });
+
+    // close modal on background click or Esc
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); });
+  </script>
+</body>
+</html>
+<!-- END index.html -->
+
+
+<!-- START santalucia.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Santa Lucía — Patrimonio Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#ff5a8a;--muted:#6b6b6b}
+    body{margin:0;font-family:Poppins,system-ui;background:#fff8fb;color:#222}
+    header{padding:14px;background:linear-gradient(90deg,var(--primary),#ff88ac);color:white;display:flex;align-items:center;gap:12px}
+    .back{color:white;text-decoration:none;padding:8px;border-radius:8px;background:rgba(0,0,0,0.08)}
+    main{padding:16px}
+    h1{font-family:Baloo 2;margin:0 0 8px}
+    .hero-img{width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+    .card{background:white;padding:12px;border-radius:12px;margin-top:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+    ul{padding-left:18px}
+  </style>
+</head>
+<body>
+  <header>
+    <a class="back" href="index.html">← Volver</a>
+    <div>
+      <div style="font-weight:700">Santa Lucía</div>
+      <div style="font-size:12px;opacity:0.95">Historia • Lugares • Comunidad</div>
+    </div>
+  </header>
+  <main>
+    <img class="hero-img" src="images/santa_lucia9.jpg" alt="Santa Lucía">
+
+    <section class="card">
+      <h2>Sabias que...</h2>
+      <p>Santa Lucía es un pueblo de tradición agrícola y cultural, famoso por sus festivales, sus plazas y la hospitalidad de su gente. Su arquitectura mezcla estilos coloniales con construcciones modernas.</p>
+    </section>
+
+    <section class="card">
+      <h3>Datos importantes</h3>
+      <ul>
+        <li><strong>Ubicación:</strong> Región Andina</li>
+        <li><strong>Altitud:</strong> 1.500 msnm</li>
+        <li><strong>Habitantes:</strong> ~10.000</li>
+        <li><strong>Actividades principales:</strong> Agricultura, artesanías y turismo rural</li>
+      </ul>
+    </section>
+
+    
+
+    <section class="card">
+      <h3>Consejos para visitantes</h3>
+      <p>Lleva calzado cómodo para caminos empedrados, prueba la gastronomía local y respeta los horarios de celebraciones religiosas y festivales.</p>
+    </section>
+  </main>
+  <footer style="padding:12px;text-align:center;color:var(--muted)">© LuciMapps - Patrimonio Vivo</footer>
+</body>
+</html>
+<!-- END santalucia.html -->
+
+
+<!-- START carnaval.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carnaval — Patrimonio Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#ffd947;--muted:#6b6b6b}
+    body{margin:0;font-family:Poppins,system-ui;background:#fffaf2;color:#222}
+    header{padding:14px;background:linear-gradient(90deg,#ff4b8b,#ffb86b);color:white;display:flex;align-items:center;gap:12px}
+    .back{color:white;text-decoration:none;padding:8px;border-radius:8px;background:rgba(0,0,0,0.06)}
+    main{padding:16px}
+    h1{font-family:Baloo 2;margin:0 0 8px}
+    .hero-img{width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+    .card{background:white;padding:12px;border-radius:12px;margin-top:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+  </style>
+</head>
+<body>
+ 
+</body>
+</html>
+<!-- END carnaval.html -->
+
+
+<!-- START gastronomia.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gastronomía — Patrimonio Vivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#18c7c3;--muted:#6b6b6b}
+    body{margin:0;font-family:Poppins,system-ui;background:#f2fffef0;color:#222}
+    header{padding:14px;background:linear-gradient(90deg,#18c7c3,#6be7d9);color:white;display:flex;align-items:center;gap:12px}
+    .back{color:white;text-decoration:none;padding:8px;border-radius:8px;background:rgba(0,0,0,0.06)}
+    main{padding:16px}
+    h1{font-family:Baloo 2;margin:0 0 8px}
+    .hero-img{width:100%;height:220px;object-fit:cover;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+    .card{background:white;padding:12px;border-radius:12px;margin-top:12px;box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+  </style>
+</head>
+<body>
+  
+  
+</body>
+</html>
+<!-- END gastronomia.html -->
+
+
+<!-- Nota: sustituye las URLs de imagen por tus archivos locales en la carpeta "images/" si lo deseas. -->
